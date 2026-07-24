@@ -9,7 +9,6 @@
     <artifactId>sky-common</artifactId>
     <packaging>jar</packaging>
     <name>sky-common</name>
-    <url>http://maven.apache.org</url>
     <dependencies>
         <dependency>
             <groupId>junit</groupId>

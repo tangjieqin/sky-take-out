@@ -9,7 +9,7 @@
     <artifactId>sky-pojo</artifactId>
     <packaging>jar</packaging>
     <name>sky-pojo</name>
-    <url>http://maven.apache.org</url>
+
     <dependencies>
         <dependency>
             <groupId>junit</groupId>
