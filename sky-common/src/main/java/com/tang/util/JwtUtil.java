@@ -47,10 +47,13 @@ public class JwtUtil {
      * @return
      */
     public static Claims parseJWT(String secretKey, String token) {
-        byte[] apiKeySecretBytes = secretKey.getBytes(StandardCharsets.UTF_8);
-        return Jwts.parser()
-                .setSigningKey(apiKeySecretBytes)
+        // 得到DefaultJwtParser
+        Claims claims = Jwts.parser()
+                // 设置签名的秘钥
+                .setSigningKey(secretKey.getBytes(StandardCharsets.UTF_8))
+                // 设置需要解析的jwt，这里包含完整校验！
                 .parseClaimsJws(token)
                 .getBody();
+        return claims;
     }
 }

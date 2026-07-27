@@ -2,6 +2,7 @@ package com.tang.controller.admin;
 
 
 import com.tang.config.JwtProperties;
+import com.tang.constant.JwtClaimsConstant;
 import com.tang.dto.EmployeeLoginDTO;
 import com.tang.entity.Employee;
 import com.tang.result.Result;
@@ -43,8 +44,8 @@ public class EmployeeController {
 
         // 生成jwt令牌
         Map<String, Object> claims = new HashMap<>();
-        claims.put("userId", employee.getId());
-        claims.put("username", employee.getUsername());
+        claims.put(JwtClaimsConstant.EMP_ID, employee.getId());
+        claims.put(JwtClaimsConstant.USERNAME, employee.getUsername());
 
         String token = JwtUtil.createJWT(
                 jwtProperties.getAdminSecretKey(),
