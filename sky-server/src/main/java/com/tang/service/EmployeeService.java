@@ -1,8 +1,10 @@
 package com.tang.service;
 
 import com.tang.dto.EmployeeDTO;
+import com.tang.dto.EmployeePageQueryDTO;
 import com.tang.entity.Employee;
 import com.tang.dto.EmployeeLoginDTO;
+import com.tang.result.PageResult;
 
 public interface EmployeeService {
 
@@ -18,4 +20,10 @@ public interface EmployeeService {
      * @param employeeDTO
      */
     void save(EmployeeDTO employeeDTO);
+
+    /**
+     * 分页查询员工信息
+     * @param employeePageQueryDTO
+     */
+    PageResult pageQuery(EmployeePageQueryDTO employeePageQueryDTO);
 }

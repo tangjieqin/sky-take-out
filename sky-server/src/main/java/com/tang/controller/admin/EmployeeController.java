@@ -5,17 +5,17 @@ import com.tang.config.JwtProperties;
 import com.tang.constant.JwtClaimsConstant;
 import com.tang.dto.EmployeeDTO;
 import com.tang.dto.EmployeeLoginDTO;
+import com.tang.dto.EmployeePageQueryDTO;
 import com.tang.entity.Employee;
+import com.tang.result.PageResult;
 import com.tang.result.Result;
 import com.tang.service.EmployeeService;
 import com.tang.util.JwtUtil;
 import com.tang.vo.EmployeeLoginVO;
 import lombok.extern.slf4j.Slf4j;
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -76,5 +76,18 @@ public class EmployeeController {
         log.info("save employee: {}", employeeDTO);
         employeeService.save(employeeDTO);
         return Result.success();
+    }
+
+    /**
+     * 员工分页查询
+     * @param employeePageQueryDTO: 单个参数传入不是json,所以自动封装成dto，不用@RequestBody
+     * @return
+     * get没有请求体
+     */
+    @GetMapping("/page")
+    public Result<PageResult> page(@ParameterObject EmployeePageQueryDTO employeePageQueryDTO) {
+        log.info("page query:{}", employeePageQueryDTO);
+        PageResult pageResult = employeeService.pageQuery(employeePageQueryDTO);
+        return Result.success(pageResult);
     }
 }

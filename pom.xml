@@ -28,6 +28,8 @@
         <knife4j>4.5.0</knife4j>
         <mysql.version>9.2.0</mysql.version>
         <junit.version>3.8.1</junit.version>
+        <pagehelper>2.1.1</pagehelper>
+
 
     </properties>
 
@@ -90,6 +92,13 @@
                 <groupId>com.mysql</groupId>
                 <artifactId>mysql-connector-j</artifactId>
                 <version>${mysql.version}</version>
+            </dependency>
+
+            <!--分页查询插件-->
+            <dependency>
+                <groupId>com.github.pagehelper</groupId>
+                <artifactId>pagehelper-spring-boot-starter</artifactId>
+                <version>${pagehelper}</version>
             </dependency>
 
             <dependency>

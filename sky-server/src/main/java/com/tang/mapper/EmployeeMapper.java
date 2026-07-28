@@ -1,5 +1,7 @@
 package com.tang.mapper;
 
+import com.github.pagehelper.Page;
+import com.tang.dto.EmployeePageQueryDTO;
 import com.tang.entity.Employee;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
@@ -26,5 +28,10 @@ public interface EmployeeMapper {
             "(#{name}, #{username}, #{password}, #{phone}, #{sex}, #{idNumber}, #{status}, #{createTime}, #{updateTime}, #{createUser}, #{updateUser})")
     void insert(Employee employee);
 
-
+    /**
+     * 分页查询：动态参数，需要动态标签，所以不使用注解而使用配置文件
+     * @param employeePageQueryDTO
+     * @return
+     */
+    Page<Employee> pageQuery(EmployeePageQueryDTO employeePageQueryDTO);
 }

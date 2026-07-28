@@ -1,15 +1,19 @@
 package com.tang.service.impl;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import com.tang.BaseContext;
 import com.tang.constant.MessageConstant;
 import com.tang.constant.PasswordContant;
 import com.tang.constant.StatusConstant;
 import com.tang.dto.EmployeeDTO;
 import com.tang.dto.EmployeeLoginDTO;
+import com.tang.dto.EmployeePageQueryDTO;
 import com.tang.entity.Employee;
 import com.tang.exception.AccountNotFoundException;
 import com.tang.exception.PasswordErrorException;
 import com.tang.mapper.EmployeeMapper;
+import com.tang.result.PageResult;
 import com.tang.service.EmployeeService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +22,7 @@ import org.springframework.util.DigestUtils;
 
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
@@ -69,5 +74,16 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         // 保存到数据库
         employeeMapper.insert(employee);
+    }
+
+    @Override
+    public PageResult pageQuery(EmployeePageQueryDTO employeePageQueryDTO) {
+        // 基于PageHelper插件实现动态分页查询，底层是mybatis,做了一个字符串的拼接
+        PageHelper.startPage(employeePageQueryDTO.getPage(), employeePageQueryDTO.getPageSize());
+        Page<Employee> page = employeeMapper.pageQuery(employeePageQueryDTO);
+        long total = page.getTotal();
+        List<Employee> recordes = page.getResult();
+
+        return new PageResult(total, recordes);
     }
 }

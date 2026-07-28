@@ -8,8 +8,13 @@ import org.springdoc.core.models.GroupedOpenApi;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import com.tang.json.JacksonObjectMapper;
+
+import java.util.List;
 
 
 /**
@@ -39,8 +44,6 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
 
 
     // 定义一个 API 分组
-
-
     @Bean
     public GroupedOpenApi publicApi() {
         return GroupedOpenApi.builder()
@@ -83,5 +86,22 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
         registry.addResourceHandler("/webjars/**")
                 .addResourceLocations("classpath:/META-INF/resources/webjars/");
     }*/
+
+
+    /**
+     * 扩展mvc框架的消息转换器
+     * @param converters
+     */
+    @Override
+    public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
+        log.info("开始扩展消息转换器...");
+        // 创建一个消息转换器对象
+        MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
+
+        // 为消息转换器设置一个对象转换器，可以将Java转化为json
+        converter.setObjectMapper(new JacksonObjectMapper());
+        // 将自己的转换器放进容器中，设置优先级0，优先使用
+        converters.add(0, converter);
+    }
 
 }
