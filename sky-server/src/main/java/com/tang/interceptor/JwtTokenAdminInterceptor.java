@@ -1,5 +1,6 @@
 package com.tang.interceptor;
 
+import com.tang.BaseContext;
 import com.tang.config.JwtProperties;
 import com.tang.constant.JwtClaimsConstant;
 import com.tang.util.JwtUtil;
@@ -10,7 +11,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
-import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 
@@ -52,6 +52,8 @@ public class JwtTokenAdminInterceptor implements HandlerInterceptor {
             log.info("jwt校验：{}", token);
             Claims claims = JwtUtil.parseJWT(jwtProperties.getAdminSecretKey(), token);
             Long empId = Long.valueOf(claims.get(JwtClaimsConstant.EMP_ID).toString());
+            // 保存到ThreadLocal中
+            BaseContext.setCurrentId(empId);
             log.info("当前员工的id: {}", empId);
             // 通过，放行
             return true;
@@ -62,6 +64,4 @@ public class JwtTokenAdminInterceptor implements HandlerInterceptor {
             return false;
         }
     }
-
-
 }

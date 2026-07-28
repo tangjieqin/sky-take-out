@@ -1,17 +1,23 @@
 package com.tang.service.impl;
 
+import com.tang.BaseContext;
 import com.tang.constant.MessageConstant;
+import com.tang.constant.PasswordContant;
+import com.tang.constant.StatusConstant;
+import com.tang.dto.EmployeeDTO;
 import com.tang.dto.EmployeeLoginDTO;
 import com.tang.entity.Employee;
 import com.tang.exception.AccountNotFoundException;
 import com.tang.exception.PasswordErrorException;
 import com.tang.mapper.EmployeeMapper;
 import com.tang.service.EmployeeService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 
 import java.nio.charset.StandardCharsets;
+import java.time.LocalDateTime;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
@@ -40,8 +46,28 @@ public class EmployeeServiceImpl implements EmployeeService {
            // 密码错误
            throw new PasswordErrorException(MessageConstant.PASSWORD_ERROR);
        }
-
-
         return employee;
+    }
+
+    @Override
+    public void save(EmployeeDTO employeeDTO) {
+        // 持久层是需要实体类，属性拷贝，必须要属性名一致
+        Employee employee = new Employee();
+        BeanUtils.copyProperties(employeeDTO, employee);
+
+        // 填充其他的属性：账号状态默认1，密码默认123456
+        employee.setStatus(StatusConstant.ENABLE);
+        employee.setPassword(DigestUtils.md5DigestAsHex(PasswordContant.DEFAULT_PASSWORD.getBytes(StandardCharsets.UTF_8)));
+        // 创建人、时间、修改人id、创建人id、修改时间
+        employee.setCreateTime(LocalDateTime.now());
+        employee.setUpdateTime(LocalDateTime.now());
+
+        // 获取当前用户的id
+        Long currentId = BaseContext.getCurrentId();
+        employee.setCreateUser(currentId);
+        employee.setUpdateUser(currentId);
+
+        // 保存到数据库
+        employeeMapper.insert(employee);
     }
 }

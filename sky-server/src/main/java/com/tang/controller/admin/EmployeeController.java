@@ -3,12 +3,14 @@ package com.tang.controller.admin;
 
 import com.tang.config.JwtProperties;
 import com.tang.constant.JwtClaimsConstant;
+import com.tang.dto.EmployeeDTO;
 import com.tang.dto.EmployeeLoginDTO;
 import com.tang.entity.Employee;
 import com.tang.result.Result;
 import com.tang.service.EmployeeService;
 import com.tang.util.JwtUtil;
 import com.tang.vo.EmployeeLoginVO;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,6 +25,7 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("admin/employee")
+@Slf4j
 public class EmployeeController {
 
     @Autowired
@@ -60,5 +63,18 @@ public class EmployeeController {
                 .build();
 
         return Result.success(employeeLoginVO);
+    }
+
+
+    /**
+     * 新增员工
+     * @param employeeDTO
+     * @return
+     */
+    @PostMapping
+    public Result save(@RequestBody EmployeeDTO employeeDTO) {
+        log.info("save employee: {}", employeeDTO);
+        employeeService.save(employeeDTO);
+        return Result.success();
     }
 }
