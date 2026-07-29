@@ -1,6 +1,7 @@
 package com.tang.mapper;
 
 import com.github.pagehelper.Page;
+import com.tang.dto.EmployeeDTO;
 import com.tang.dto.EmployeePageQueryDTO;
 import com.tang.entity.Employee;
 import org.apache.ibatis.annotations.Insert;
@@ -40,4 +41,11 @@ public interface EmployeeMapper {
      * @param employee
      */
     void update(Employee employee);
+
+    /**
+     * 根据id查询员工信息
+     * @param id
+     */
+    @Select("select * from employee where id = #{id}")
+    Employee getEmployeeById(Long id);
 }

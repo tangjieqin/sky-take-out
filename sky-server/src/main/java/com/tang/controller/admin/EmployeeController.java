@@ -89,17 +89,39 @@ public class EmployeeController {
         return Result.success(pageResult);
     }
 
-    /*
+    /**
      * 创建启用禁用员工账号
      * @param status
      * @param id
      * @return
      */
-
     @PostMapping("/status/{status}")  // Spring会自动将路径中的 {id} 绑定到参数 id
     public Result startOrStop(@PathVariable Integer status, @RequestParam Long id) {
         log.info("启用禁用员工账号：{},{}",status,id);
         employeeService.startOrStop(status,id);
+        return Result.success();
+    }
+
+    /**
+     * 根基id查询员工
+     * @param id
+     * @return
+     */
+    @GetMapping("/{id}")
+    public Result<Employee> getById(@PathVariable Long id) {
+        Employee employee = employeeService.getEmployeeById(id);
+        return Result.success(employee);
+    }
+
+    /**
+     * 编辑员工信息
+     * @param employeeDTO
+     * @return
+     */
+    @PutMapping
+    public Result update(@RequestBody EmployeeDTO employeeDTO) {
+        log.info("编辑员工：{}", employeeDTO);
+        employeeService.update(employeeDTO);
         return Result.success();
     }
 }
