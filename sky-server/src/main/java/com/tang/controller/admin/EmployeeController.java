@@ -1,6 +1,5 @@
 package com.tang.controller.admin;
 
-
 import com.tang.config.JwtProperties;
 import com.tang.constant.JwtClaimsConstant;
 import com.tang.dto.EmployeeDTO;
@@ -16,7 +15,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -89,5 +87,19 @@ public class EmployeeController {
         log.info("page query:{}", employeePageQueryDTO);
         PageResult pageResult = employeeService.pageQuery(employeePageQueryDTO);
         return Result.success(pageResult);
+    }
+
+    /*
+     * 创建启用禁用员工账号
+     * @param status
+     * @param id
+     * @return
+     */
+
+    @PostMapping("/status/{status}")  // Spring会自动将路径中的 {id} 绑定到参数 id
+    public Result startOrStop(@PathVariable Integer status, @RequestParam Long id) {
+        log.info("启用禁用员工账号：{},{}",status,id);
+        employeeService.startOrStop(status,id);
+        return Result.success();
     }
 }
