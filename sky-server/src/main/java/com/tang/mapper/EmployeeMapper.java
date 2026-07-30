@@ -1,7 +1,6 @@
 package com.tang.mapper;
 
 import com.github.pagehelper.Page;
-import com.tang.dto.EmployeeDTO;
 import com.tang.dto.EmployeePageQueryDTO;
 import com.tang.entity.Employee;
 import org.apache.ibatis.annotations.Insert;
