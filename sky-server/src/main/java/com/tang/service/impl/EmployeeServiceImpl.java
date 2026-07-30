@@ -2,7 +2,6 @@ package com.tang.service.impl;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
-import com.tang.BaseContext;
 import com.tang.constant.MessageConstant;
 import com.tang.constant.PasswordContant;
 import com.tang.constant.StatusConstant;
@@ -21,7 +20,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 
 import java.nio.charset.StandardCharsets;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -63,15 +61,6 @@ public class EmployeeServiceImpl implements EmployeeService {
         // 填充其他的属性：账号状态默认1，密码默认123456
         employee.setStatus(StatusConstant.ENABLE);
         employee.setPassword(DigestUtils.md5DigestAsHex(PasswordContant.DEFAULT_PASSWORD.getBytes(StandardCharsets.UTF_8)));
-        // 创建人、时间、修改人id、创建人id、修改时间
-        employee.setCreateTime(LocalDateTime.now());
-        employee.setUpdateTime(LocalDateTime.now());
-
-        // 获取当前用户的id
-        Long currentId = BaseContext.getCurrentId();
-        employee.setCreateUser(currentId);
-        employee.setUpdateUser(currentId);
-
         // 保存到数据库
         employeeMapper.insert(employee);
     }
@@ -106,9 +95,6 @@ public class EmployeeServiceImpl implements EmployeeService {
         // Dto转换成employee
         Employee employee = new Employee();
         BeanUtils.copyProperties(employeeDTO, employee);
-        // 更新修改人和时间
-        employee.setUpdateTime(LocalDateTime.now());
-        employee.setUpdateUser(BaseContext.getCurrentId());
         employeeMapper.update(employee);
     }
 }

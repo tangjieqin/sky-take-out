@@ -1,8 +1,10 @@
 package com.tang.mapper;
 
 import com.github.pagehelper.Page;
+import com.tang.annotation.AutoFill;
 import com.tang.dto.CategoryPageQueryDTO;
 import com.tang.entity.Category;
+import com.tang.enumeration.OperationType;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
@@ -22,6 +24,7 @@ public interface CategoryMapper {
     @Insert("insert into category(type, name, sort, status, create_time, update_time, create_user, update_user)" +
             " values" +
             " (#{type}, #{name}, #{sort}, #{status}, #{createTime}, #{updateTime}, #{createUser}, #{updateUser})")
+    @AutoFill(value = OperationType.INSERT)
     void insert(Category category);
 
     /**
@@ -42,6 +45,7 @@ public interface CategoryMapper {
      * 根据id修改分类
      * @param category
      */
+    @AutoFill(value = OperationType.UPDATE)
     void update(Category category);
 
     /**

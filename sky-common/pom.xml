@@ -9,8 +9,8 @@
     <artifactId>sky-common</artifactId>
     <packaging>jar</packaging>
     <name>sky-common</name>
-    <dependencies>
 
+    <dependencies>
         <!-- Spring -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -49,6 +49,7 @@
             <scope>runtime</scope>
         </dependency>
 
-
     </dependencies>
+
+
 </project>
