@@ -11,6 +11,8 @@ import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/admin/dish")
 @Slf4j
@@ -40,7 +42,19 @@ public class DishController {
     public Result<PageResult> page(@ParameterObject DishPageQueryDTO dishPageQueryDTO) {
         PageResult pageResult = dishService.pageQuery(dishPageQueryDTO);
         return Result.success(pageResult);
+    }
 
+
+    /**
+    *批量删除菜品
+     * @param ids
+     * @return
+     * @RequestParam：这个注解可以让是springMVC将字符串分割存到List中
+     */
+    @DeleteMapping
+    public Result<String> delete(@RequestParam List<Long> ids) {
+            dishService.deleteBatch(ids);
+            return Result.success("");
     }
 
 }

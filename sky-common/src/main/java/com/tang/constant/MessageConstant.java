@@ -22,4 +22,8 @@ public class MessageConstant {
     public static final String UPLOAD_FILE_EMPTY = "上传文件不能为空";
 
     public static final String UPLOAD_FILE_FAILED = "文件上传失败";
+
+    public static final String DISH_ON_SALE = "起售中的菜品不能删除";
+
+    public static final String DISH_BE_RELATED_BY_SETMEAL = "当前菜品关联了套餐,不能删除";
 }

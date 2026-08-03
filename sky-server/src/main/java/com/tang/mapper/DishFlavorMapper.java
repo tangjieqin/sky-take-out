@@ -1,6 +1,7 @@
 package com.tang.mapper;
 
 import com.tang.entity.DishFlavor;
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -13,4 +14,18 @@ public interface DishFlavorMapper {
      * @param flavors
      */
     void insertBatch(List<DishFlavor> flavors);
+
+    /**
+     * 根据DishId删除口味数据
+     * @param dishId
+     */
+    @Delete("delete dish_flavor where dish_id = #{dishId}")
+    void deleteByDishId(Long dishId);
+
+
+    /**
+     * 根据DishIds批量删除口味数据
+     * @param ids
+     */
+    void deleteByDishIds(List<Long> ids);
 }
