@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tang.mapper.DishMapper">
+
+    <!--
+    插入菜品数据的动态sql:
+    useGeneratedKeys:是否开启自动生成主键
+    keyProperty:主键的属性名
+    插入成功后将主键值赋值给对象的id属性，插入口味数据需要这个id值（关联关系）
+    -->
+       <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        insert into dish(name, category_id, price, image, description, create_time, update_time, create_user, update_user, status)
+         values(#{name}, #{categoryId}, #{price}, #{image}, #{description}, #{createTime}, #{updateTime}, #{createUser}, #{updateUser}, #{status})
+    </insert>
+
+
+
+
+
+</mapper>

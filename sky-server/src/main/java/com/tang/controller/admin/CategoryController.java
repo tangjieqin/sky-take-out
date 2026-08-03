@@ -91,10 +91,11 @@ public class CategoryController {
      * @param type
      * @return
      */
+    @GetMapping("/list")
     public Result<List<Category>> listByType(@RequestParam Integer type) {
         log.info("查询分类列表数据：type={}", type);
         List<Category> categoryList = categoryService.listByType(type);
         return Result.success(categoryList);
-    }
+   }
 
 }
