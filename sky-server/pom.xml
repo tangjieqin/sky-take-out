@@ -66,6 +66,12 @@
             <optional>true</optional>
         </dependency>
 
+        <!--阿里云OSS的SDK-->
+        <dependency>
+            <groupId>com.aliyun</groupId>
+            <artifactId>alibabacloud-oss-v2</artifactId>
+        </dependency>
+
     </dependencies>
 
     <build>

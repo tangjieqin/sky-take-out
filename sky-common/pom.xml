@@ -22,6 +22,12 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
+        <!--阿里云OSS的SDK-->
+        <dependency>
+            <groupId>com.aliyun</groupId>
+            <artifactId>alibabacloud-oss-v2</artifactId>
+        </dependency>
+
 
         <!-- lombok -->
         <dependency>

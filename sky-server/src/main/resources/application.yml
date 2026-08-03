@@ -43,6 +43,13 @@ sky:
     admin-ttl: 7200000
     # 设置前端传递过来的令牌名称
     admin-token-name: token
+#  设置oss配置
+  oss:
+    endpoint: ${sky.oss.endpoint}
+    region: ${sky.oss.region}
+    bucket-name: ${sky.oss.bucket-name}
+    access-key-id: ${sky.oss.access-key-id}
+    access-key-secret: ${sky.oss.access-key-secret}
 
 knife4j:
   enable: true

@@ -29,9 +29,10 @@
         <mysql.version>9.2.0</mysql.version>
         <junit.version>3.8.1</junit.version>
         <pagehelper>2.1.1</pagehelper>
-
+        <aliyun.oss.version>0.5.0</aliyun.oss.version>
 
     </properties>
+
 
     <dependencyManagement>
         <dependencies>
@@ -106,6 +107,13 @@
                 <artifactId>junit</artifactId>
                 <version>${junit.version}</version>
                 <scope>test</scope>
+            </dependency>
+
+            <!--阿里云OSS的SDK-->
+            <dependency>
+                <groupId>com.aliyun</groupId>
+                <artifactId>alibabacloud-oss-v2</artifactId>
+                <version>${aliyun.oss.version}</version>
             </dependency>
 
         </dependencies>

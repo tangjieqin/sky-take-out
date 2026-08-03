@@ -6,3 +6,11 @@ sky:
     database: sky_take_out
     username: root
     password: tang
+
+#  设置阿里云oss配置
+  oss:
+    endpoint: oss-cn-beijing.aliyuncs.com
+    region: cn-beijing
+    bucket-name: tang-skytakeout
+    access-key-id: ${sky.oss.access-key-id}
+    access-key-secret: ${sky.oss.access-key-secret}
