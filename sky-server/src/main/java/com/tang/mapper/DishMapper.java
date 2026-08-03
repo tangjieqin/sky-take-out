@@ -1,10 +1,11 @@
 package com.tang.mapper;
 
-
+import com.github.pagehelper.Page;
 import com.tang.annotation.AutoFill;
-import com.tang.dto.DishDTO;
+import com.tang.dto.DishPageQueryDTO;
 import com.tang.entity.Dish;
 import com.tang.enumeration.OperationType;
+import com.tang.vo.DishVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
@@ -25,4 +26,11 @@ public interface DishMapper {
      */
     @AutoFill(value = OperationType.INSERT)
     void insert(Dish dish);
+
+    /**
+     * 分页查询菜品
+     * @param dishPageQueryDTO
+     * @return
+     */
+    Page<DishVO> pageQuery(DishPageQueryDTO dishPageQueryDTO);
 }

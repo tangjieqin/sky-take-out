@@ -1,6 +1,8 @@
 package com.tang.service;
 
 import com.tang.dto.DishDTO;
+import com.tang.dto.DishPageQueryDTO;
+import com.tang.result.PageResult;
 
 public interface DishService {
 
@@ -9,4 +11,11 @@ public interface DishService {
      * @param dishDTO
      */
     void saveWithFlavor(DishDTO dishDTO);
+
+    /**
+     * 分页查询菜品
+     * @param dishPageQueryDTO
+     * @return
+     */
+    PageResult pageQuery(DishPageQueryDTO dishPageQueryDTO);
 }

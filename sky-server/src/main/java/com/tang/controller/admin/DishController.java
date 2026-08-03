@@ -2,14 +2,14 @@ package com.tang.controller.admin;
 
 
 import com.tang.dto.DishDTO;
+import com.tang.dto.DishPageQueryDTO;
+import com.tang.result.PageResult;
 import com.tang.result.Result;
 import com.tang.service.DishService;
 import lombok.extern.slf4j.Slf4j;
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/admin/dish")
@@ -29,6 +29,18 @@ public class DishController {
         log.info("新增菜品: {}", dishDTO);
         dishService.saveWithFlavor(dishDTO);
         return Result.success("");
+    }
+
+    /**
+     * 分页查询菜品
+     * @param dishPageQueryDTO
+     * @return
+     */
+    @GetMapping("/page")
+    public Result<PageResult> page(@ParameterObject DishPageQueryDTO dishPageQueryDTO) {
+        PageResult pageResult = dishService.pageQuery(dishPageQueryDTO);
+        return Result.success(pageResult);
+
     }
 
 }

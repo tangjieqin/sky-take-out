@@ -1,11 +1,16 @@
 package com.tang.service.impl;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import com.tang.dto.DishDTO;
+import com.tang.dto.DishPageQueryDTO;
 import com.tang.entity.Dish;
 import com.tang.entity.DishFlavor;
 import com.tang.mapper.DishFlavorMapper;
 import com.tang.mapper.DishMapper;
+import com.tang.result.PageResult;
 import com.tang.service.DishService;
+import com.tang.vo.DishVO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,9 +38,6 @@ public class DishServiceImpl implements DishService {
         // 向菜品表插入一条
         dishMapper.insert(dish);
 
-        // 需要将菜品的id赋值给口味的dishId属性
-        Long dishId = dish.getId();
-
         // 向口味表插入多条
         List<DishFlavor> flavors = dishDTO.getFlavors();
         if (flavors != null && !flavors.isEmpty()) {
@@ -44,5 +46,13 @@ public class DishServiceImpl implements DishService {
             // 批量插入口味数据
             dishFlavorMapper.insertBatch(flavors);
         }
+    }
+
+    @Override
+    public PageResult pageQuery(DishPageQueryDTO dishPageQueryDTO) {
+
+        PageHelper.startPage(dishPageQueryDTO.getPage(), dishPageQueryDTO.getPageSize());
+        Page<DishVO> pageResult = dishMapper.pageQuery(dishPageQueryDTO);
+        return new PageResult(pageResult.getTotal(), pageResult.getResult());
     }
 }
