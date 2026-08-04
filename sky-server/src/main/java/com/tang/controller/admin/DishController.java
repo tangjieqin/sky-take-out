@@ -6,6 +6,7 @@ import com.tang.dto.DishPageQueryDTO;
 import com.tang.result.PageResult;
 import com.tang.result.Result;
 import com.tang.service.DishService;
+import com.tang.vo.DishVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,6 +56,31 @@ public class DishController {
     public Result<String> delete(@RequestParam List<Long> ids) {
             dishService.deleteBatch(ids);
             return Result.success("");
+    }
+
+
+    /**
+     * 根据id查询菜品的详细信息
+     * @param id
+     * @return
+     */
+    @GetMapping("/{id}")
+    public Result<DishVO> getById(@PathVariable Long id) {
+        DishVO dishVO = dishService.getByIdWithFlavor(id);
+        return Result.success(dishVO);
+    }
+
+
+    /**
+     * 修改菜品信息
+     * @param dishDTO
+     * @return
+     */
+    @PutMapping
+    public Result<String> update(@RequestBody DishDTO dishDTO) {
+        log.info("更新菜品: {}", dishDTO);
+        dishService.updateWithFlavor(dishDTO);
+        return Result.success("");
     }
 
 }

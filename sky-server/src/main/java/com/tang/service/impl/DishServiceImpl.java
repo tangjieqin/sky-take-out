@@ -12,7 +12,6 @@ import com.tang.exception.DeletionNotAllowedException;
 import com.tang.mapper.DishFlavorMapper;
 import com.tang.mapper.DishMapper;
 import com.tang.mapper.SetmealDishMapper;
-import com.tang.mapper.SetmealMapper;
 import com.tang.result.PageResult;
 import com.tang.service.DishService;
 import com.tang.vo.DishVO;
@@ -87,5 +86,43 @@ public class DishServiceImpl implements DishService {
         dishMapper.deleteByIds(ids);
         dishFlavorMapper.deleteByDishIds(ids);
 
+    }
+
+    @Override
+    public DishVO getByIdWithFlavor(Long id) {
+        // 根据id查询菜品的信息
+        Dish dish = dishMapper.getById(id);
+
+        // 根据菜品id查询口味数据
+        List<DishFlavor> flavors = dishFlavorMapper.getByDishId(id);
+
+        // 数据合并
+        DishVO dishVO = new DishVO();
+        BeanUtils.copyProperties(dish, dishVO);
+        dishVO.setFlavors(flavors);
+
+        return dishVO;
+    }
+
+    @Override
+    public void updateWithFlavor(DishDTO dishDTO) {
+
+        Dish dish = new Dish();
+        BeanUtils.copyProperties(dishDTO, dish);
+
+        // 更新菜品信息
+        dishMapper.update(dish);
+
+        // 删除旧的口味数据,再插入新的
+        dishFlavorMapper.deleteByDishId(dishDTO.getId());
+
+        // 更新口味信息
+        List<DishFlavor> flavors = dishDTO.getFlavors();
+        if (flavors != null && !flavors.isEmpty()) {
+            // 更新一下口味的dishId
+             flavors.forEach(flavor -> flavor.setDishId(dishDTO.getId()));
+            // 批量插入口味数据
+            dishFlavorMapper.insertBatch(flavors);
+        }
     }
 }
