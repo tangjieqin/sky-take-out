@@ -46,6 +46,23 @@
         order by d.create_time desc
     </select>
 
+    <!--根据条件查询菜品列表：分类id和状态-->
+    <select id="list" resultType="com.tang.entity.Dish" parameterType="com.tang.entity.Dish">
+        select * from dish
+        <where>
+            <if test="name != null">
+                and  name like concat('%', #{name}, '%')
+            </if>
+            <if test="categoryId != null">
+                and category_id = #{categoryId}
+            </if>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+        </where>
+        order by create_time desc
+    </select>
+
 
     <delete id="deleteByIds" parameterType="java.util.List">
          delete from dish where id in
@@ -53,9 +70,6 @@
             #{id}
          </foreach>
     </delete>
-
-
-
 
 
 </mapper>

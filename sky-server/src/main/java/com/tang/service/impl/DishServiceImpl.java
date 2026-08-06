@@ -8,10 +8,12 @@ import com.tang.dto.DishDTO;
 import com.tang.dto.DishPageQueryDTO;
 import com.tang.entity.Dish;
 import com.tang.entity.DishFlavor;
+import com.tang.entity.Setmeal;
 import com.tang.exception.DeletionNotAllowedException;
 import com.tang.mapper.DishFlavorMapper;
 import com.tang.mapper.DishMapper;
 import com.tang.mapper.SetmealDishMapper;
+import com.tang.mapper.SetmealMapper;
 import com.tang.result.PageResult;
 import com.tang.service.DishService;
 import com.tang.vo.DishVO;
@@ -19,8 +21,8 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.List;
+
 
 @Service
 public class DishServiceImpl implements DishService {
@@ -33,6 +35,9 @@ public class DishServiceImpl implements DishService {
 
     @Autowired
     private SetmealDishMapper setmealDishMapper;
+
+    @Autowired
+    private SetmealMapper setmealMapper;
 
     //涉及到菜品和口味表，需要事务，确保数据的一致性，启动类已经开启事务
     @Override
@@ -124,5 +129,37 @@ public class DishServiceImpl implements DishService {
             // 批量插入口味数据
             dishFlavorMapper.insertBatch(flavors);
         }
+    }
+
+    @Override
+    @Transactional
+    public void startOrStop(Integer status, Long id) {
+        // 直接整体更新这个Dish
+        Dish dish = Dish.builder().id(id).status(status).build();
+        dishMapper.update(dish);
+
+        // 更新套餐关联的菜品状态:停售的话所在的套餐也要停售
+        if (status == StatusConstant.DISABLE) {
+            // 查询当前菜品关联的套餐id
+            List<Long> setmealIds = setmealDishMapper.getSetmealIdByDishId(List.of(id));
+            if (setmealIds != null && !setmealIds.isEmpty()) {
+                // 批量更新套餐状态
+                setmealIds.forEach(setmealId -> {
+                    Setmeal setmeal = Setmeal.builder()
+                            .id(setmealId)
+                            .status(StatusConstant.DISABLE)
+                            .build();
+                    setmealMapper.update(setmeal);
+                });
+            }
+        }
+    }
+
+    @Override
+    public List<Dish> listByCategoryId(Long categoryId) {
+        // 只添加正在起售的菜品
+        Dish dish = Dish.builder().categoryId(categoryId).status(StatusConstant.ENABLE).build();
+        return dishMapper.list(dish);
+
     }
 }

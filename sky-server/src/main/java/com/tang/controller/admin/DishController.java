@@ -3,6 +3,7 @@ package com.tang.controller.admin;
 
 import com.tang.dto.DishDTO;
 import com.tang.dto.DishPageQueryDTO;
+import com.tang.entity.Dish;
 import com.tang.result.PageResult;
 import com.tang.result.Result;
 import com.tang.service.DishService;
@@ -70,6 +71,18 @@ public class DishController {
         return Result.success(dishVO);
     }
 
+    /**
+     * 根据分类id查询菜品列表
+     * @param categoryId
+     * @return
+     */
+    @GetMapping("/list")
+    public Result<List<Dish>> list(@RequestParam Long categoryId) {
+        List<Dish> dishList = dishService.listByCategoryId(categoryId);
+        return Result.success(dishList);
+
+    }
+
 
     /**
      * 修改菜品信息
@@ -80,6 +93,18 @@ public class DishController {
     public Result<String> update(@RequestBody DishDTO dishDTO) {
         log.info("更新菜品: {}", dishDTO);
         dishService.updateWithFlavor(dishDTO);
+        return Result.success("");
+    }
+
+    /**
+     * 起售和禁售菜品
+     * @param status
+     * @param id
+     * @return
+     */
+    @PostMapping("/status/{status}")
+    public Result<String> startOrStop(@PathVariable("status") Integer status, @RequestParam Long id) {
+        dishService.startOrStop(status, id);
         return Result.success("");
     }
 
